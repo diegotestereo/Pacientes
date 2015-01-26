@@ -1,14 +1,16 @@
 package Ventanas;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.JTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import BasesDatos.*;
 
 public class FramePrincipal extends JFrame {
 
@@ -16,19 +18,31 @@ public class FramePrincipal extends JFrame {
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textField;
+	private JTable table;
 
 	
 	public FramePrincipal() {
 		setTitle("Sistema Integral de Pacientes de Nutricion");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 363, 239);
+		setBounds(100, 100, 363, 442);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnIngresar = new JButton("Nuevo");
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				String Nombre=textNombre.getText();
+				int Telefono =Integer.parseInt(textTelefono.getText());
+				Conexion con = new Conexion();
+				con.Insertar(Nombre, Telefono);
+				
+			}
+		});
 		btnIngresar.setBounds(132, 144, 101, 55);
 		contentPane.add(btnIngresar);
 		
@@ -76,5 +90,12 @@ public class FramePrincipal extends JFrame {
 		JButton btnModificar = new JButton("Editar");
 		btnModificar.setBounds(243, 143, 101, 55);
 		contentPane.add(btnModificar);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 231, 334, 172);
+		contentPane.add(panel_1);
+		
+		table = new JTable();
+		panel_1.add(table);
 	}
 }
