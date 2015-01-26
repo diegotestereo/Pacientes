@@ -1,10 +1,13 @@
 package clases;
-
+import Ventanas.FramePrincipal;
 public class ClasePrincipal {
 
+	static FramePrincipal FrameP;
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		FrameP=new FramePrincipal();
+		FrameP.setVisible(true);
+		
 	}
 
 }
