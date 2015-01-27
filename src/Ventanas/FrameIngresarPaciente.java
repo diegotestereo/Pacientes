@@ -88,15 +88,7 @@ public class FrameIngresarPaciente extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String Nombre=textNomPaciente.getText();
-				String TelefonoS=textTelPAciente.getText();
-				int Telefono = 0;
-				try {
-					 Telefono=Integer.parseInt(TelefonoS);
-
-					
-				} catch (NumberFormatException ex){ // handle your exception e) {
-					System.out.println("Error :" +ex);
-				}
+				String Telefono=textTelPAciente.getText();
 				
 				System.out.println(Telefono);
 				Conexion con = new Conexion();

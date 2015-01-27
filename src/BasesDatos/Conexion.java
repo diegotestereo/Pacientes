@@ -30,13 +30,13 @@ public class Conexion {
 	
 	
 	
-	public void Insertar(String Nombre,int telefono){
+	public void Insertar(String Nombre,String telefono){
 		
 		Connection con=Conectar();
 		try {
 			PreparedStatement pst =con.prepareStatement("INSERT INTO tablapacientes (NomPaciente,TelPaciente) VALUES (?,?)");
 			pst.setString(1,Nombre);
-			pst.setInt(2,telefono);
+			pst.setString(2,telefono);
 			pst.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -45,6 +45,24 @@ public class Conexion {
 		}
 	
 	}
+	
+	public void Editar(int id,String Nombre,String Telefono){
+		Connection con=Conectar();
+		Statement st;
+		
+		try {
+			st=con.createStatement();
+			st.executeUpdate("UPDATE tablaPacientes NomPaciente ='"+Nombre+"', TelPaciente ='"+Telefono+"' WHERE IdPaciente='"+id+"'");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		
+	}
+	
 	
 	public void Borrar(int id){
 		Connection con=  Conectar();
