@@ -2,7 +2,7 @@ package BasesDatos;
 
 import java.sql.*;
 
-import com.sun.istack.internal.logging.Logger;
+
 
 
 public class Conexion {
@@ -18,7 +18,9 @@ public class Conexion {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con= DriverManager.getConnection("jdbc:mysql://localhost/pacientes","root","");		
+			con= DriverManager.getConnection("jdbc:mysql://localhost/pacientes","root","");	
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -26,13 +28,15 @@ public class Conexion {
 		
 	}
 	
-	public void Insertar(String Nombre,int Telefono){
+	
+	
+	public void Insertar(String Nombre,int telefono){
 		
 		Connection con=Conectar();
 		try {
 			PreparedStatement pst =con.prepareStatement("INSERT INTO tablapacientes (NomPaciente,TelPaciente) VALUES (?,?)");
 			pst.setString(1,Nombre);
-			pst.setInt(2, Telefono);
+			pst.setInt(2,telefono);
 			pst.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -42,19 +46,71 @@ public class Conexion {
 	
 	}
 	
-	public void Buscar(String Nombre){
-		
-		
+	public void Borrar(int id){
+		Connection con=  Conectar();
+		Statement st;
+		try {
+			st=con.createStatement();
+			st.execute("DELETE FROM tablaPacientes WHERE idPaciente='"+id+"'");
+	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		
 	}
 	
-	public void Editar(){
-		
-		
-		
-		
+	public ResultSet BuscarTodos(){
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs=null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM tablapacientes");
+			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
 	}
 	
+	public ResultSet BuscarNombre(String NombreBusqueda){
+		
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs = null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM tablapacientes WHERE NomPaciente LIKE '%"+NombreBusqueda+"%'");
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+		return rs;
 	
+	}
+	
+public ResultSet BuscarTelefono(String Telefono){
+		
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs = null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM tablapacientes WHERE TelPaciente LIKE '%"+Telefono+"%'");
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+		return rs;
+	
+	}
+
+
+	
+	
+
 
 }

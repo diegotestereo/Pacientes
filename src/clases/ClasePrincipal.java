@@ -1,5 +1,5 @@
 package clases;
-import Ventanas.FramePrincipal;
+import Ventanas.*;
 public class ClasePrincipal {
 
 	static FramePrincipal FrameP;
