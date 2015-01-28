@@ -2,9 +2,6 @@ package BasesDatos;
 
 import java.sql.*;
 
-
-
-
 public class Conexion {
 
 	public Conexion() {
@@ -46,7 +43,34 @@ public class Conexion {
 	
 	}
 	
-	public void Editar(int id,String Nombre,String Telefono){
+	public void InsertarControl(int Id,double peso,double imc,double altura,String Observaciones){
+		
+		Connection con =Conectar();
+		//Statement st=null;
+		try {
+			//st=con.createStatement();
+			PreparedStatement pst =con.prepareStatement("INSERT INTO tablacontrol (IdPaciente,PesoControl,IMCControl,AlturaControl,ObsControl) VALUES (?,?,?,?,?)");
+			pst.setInt(1,Id);
+			pst.setDouble(2,peso);
+			pst.setDouble(3,imc);
+			pst.setDouble(4,altura);
+			pst.setString(5,Observaciones);
+			pst.execute();
+			
+		//	st.execute("INSERT INTO tablacontrol (IdPaciente,PesoControl,AlturaControl,IMCControl,ObsControl) VALUES ('"+Id+"','"+peso+"','"+imc+"','"+altura+"','"+Observaciones+"')");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+	}
+	
+ 	public void Editar(int id,String Nombre,String Telefono){
 		Connection con=Conectar();
 		Statement st;
 		
@@ -67,8 +91,7 @@ public class Conexion {
 	
 		
 	}
-	
-	
+
 	public void Borrar(int id){
 		Connection con=  Conectar();
 		Statement st;
@@ -130,7 +153,6 @@ public ResultSet BuscarTelefono(String Telefono){
 		return rs;
 	
 	}
-
 
 	
 	

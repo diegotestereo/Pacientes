@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +20,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.omg.CORBA.Current;
+
 import BasesDatos.Conexion;
+import javax.swing.ScrollPaneConstants;
 
 public class FramePrincipal extends JFrame {
 
@@ -54,8 +58,15 @@ public class FramePrincipal extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
+				String filas=String.valueOf(JTable1.getRowCount()+1);
+				 java.util.Date date= new java.util.Date();
 				JFrameIngresarPa = new FramePaciente();
 				JFrameIngresarPa.setVisible(true);
+				JFrameIngresarPa.btnEditar.setEnabled(false);
+				JFrameIngresarPa.btnAnalisis.setEnabled(false);
+				JFrameIngresarPa.btnControles.setEnabled(false);
+				JFrameIngresarPa.textIdPaciente.setText(filas);
+				JFrameIngresarPa.textFecha.setText(String.valueOf(new Timestamp(date.getTime())).substring(0,10));
 				
 			}
 		});
@@ -182,6 +193,7 @@ public class FramePrincipal extends JFrame {
 		contentPane.add(btnVerPacientes);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setEnabled(false);
 		scrollPane.setBounds(10, 209, 479, 194);
 		contentPane.add(scrollPane);
@@ -205,11 +217,11 @@ public class FramePrincipal extends JFrame {
 					JFramePaciente.textIdPaciente.setText(IdHistClin);
 					JFramePaciente.textNomPaciente.setText(NombreHistClin);
 					JFramePaciente.textTelPAciente.setText(TelefonoHistClin);
-					JFramePaciente.textFecha.setText(FechaHistClin);
+					JFramePaciente.textFecha.setText(FechaHistClin.substring(0,10));
+					JFramePaciente.btnGuardar.setEnabled(false);
 					
 					JFramePaciente.setVisible(true);
-					
-			        //   JOptionPane.showMessageDialog( JTable1 ,"No son molestos los popups?");
+					//   JOptionPane.showMessageDialog( JTable1 ,"No son molestos los popups?");
 			         }
 			}
 

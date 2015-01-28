@@ -1,22 +1,20 @@
 package Ventanas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Timestamp;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import BasesDatos.Conexion;
-
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class FramePaciente extends JFrame {
 
@@ -27,12 +25,14 @@ public class FramePaciente extends JFrame {
 	JButton btnAnalisis = new JButton("Analisis");
 	JButton btnControles = new JButton("Control");
 	JButton btnGuardar = new JButton("Guardar");
+	JButton btnEditar = new JButton("Editar");
 	FrameAnalisiClinicos JFrameAnalClini;
 	FrameControles JFrameControl;
 	FramePrincipal JFramePrincipal;
 	public JTextField textFecha;
 	
 	public FramePaciente() {
+		setResizable(false);
 		
 		InicializarPantalla();
 		}
@@ -91,26 +91,36 @@ public class FramePaciente extends JFrame {
 				String Nombre=textNomPaciente.getText();
 				String Telefono=textTelPAciente.getText();
 				
+			if (!((Nombre.equals(""))||(Telefono.equals("")))){
 				System.out.println(Telefono);
 				Conexion con = new Conexion();
 				con.Insertar(Nombre, Telefono);
 				JOptionPane.showMessageDialog(rootPane, "Paciente "+Nombre+" Ingresado !!!");
-				
-								
+									
 			btnAnalisis.setEnabled(true);	
 			btnControles.setEnabled(true);
+			btnEditar.setEnabled(true);
+			btnGuardar.setEnabled(false);}
+			else{
+				JOptionPane.showMessageDialog(rootPane, "Ingrese Nombre y Telefono !!!");
+				
+			}
 			}
 		});
-		btnGuardar.setBounds(10, 164, 76, 58);
+		btnGuardar.setBounds(10, 164, 95, 58);
 		panel.add(btnGuardar);
 		
 		btnControles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				 java.util.Date date= new java.util.Date();
 			JFrameControl=new FrameControles();
+			JFrameControl.textNomPacienteC.setText(textNomPaciente.getText());
+			JFrameControl.textFechaC.setText(textFecha.getText().substring(0,10));
+			JFrameControl.textFechaC.setText(String.valueOf(new Timestamp(date.getTime())).substring(0,10));
 			JFrameControl.setVisible(true);
 			}
 		});
-		btnControles.setBounds(100, 164, 76, 58);
+		btnControles.setBounds(115, 164, 76, 58);
 		panel.add(btnControles);
 		
 		btnAnalisis.addActionListener(new ActionListener() {
@@ -119,7 +129,7 @@ public class FramePaciente extends JFrame {
 				JFrameAnalClini.setVisible(true);
 			}
 		});
-		btnAnalisis.setBounds(192, 164, 79, 58);
+		btnAnalisis.setBounds(201, 164, 79, 58);
 		panel.add(btnAnalisis);
 		
 		textFecha = new JTextField();
@@ -128,8 +138,8 @@ public class FramePaciente extends JFrame {
 		panel.add(textFecha);
 		textFecha.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Editar");
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Conexion con= new Conexion();
 				con.Editar(Integer.parseInt(textIdPaciente.getText()),textNomPaciente.getText(),textTelPAciente.getText());
@@ -137,8 +147,8 @@ public class FramePaciente extends JFrame {
 								
 			}
 		});
-		btnNewButton.setBounds(290, 164, 67, 58);
-		panel.add(btnNewButton);
+		btnEditar.setBounds(290, 164, 67, 58);
+		panel.add(btnEditar);
 	
 	}
 }
