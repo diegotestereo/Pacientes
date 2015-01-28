@@ -52,8 +52,13 @@ public class Conexion {
 		
 		try {
 			st=con.createStatement();
-			st.executeUpdate("UPDATE tablaPacientes NomPaciente ='"+Nombre+"', TelPaciente ='"+Telefono+"' WHERE IdPaciente='"+id+"'");
-			
+			int Consulta=st.executeUpdate("UPDATE tablaPacientes SET NomPaciente ='"+Nombre+"', TelPaciente ='"+Telefono+"' WHERE IdPaciente='"+id+"'");
+			if (Consulta==1){
+				System.out.println("ACtualizado");
+			}else{
+				System.out.println("error");
+				
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

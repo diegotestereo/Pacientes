@@ -18,27 +18,28 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FrameIngresarPaciente extends JFrame {
+public class FramePaciente extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textIdPaciente;
-	private JTextField textNomPaciente;
-	private JTextField textTelPAciente;
-	JButton btnAnalisisClinicos = new JButton("Analisis Clinicos");
-	JButton btnControles = new JButton("Controles");
+	public JTextField textIdPaciente;
+	public JTextField textNomPaciente;
+	public JTextField textTelPAciente;
+	JButton btnAnalisis = new JButton("Analisis");
+	JButton btnControles = new JButton("Control");
 	JButton btnGuardar = new JButton("Guardar");
 	FrameAnalisiClinicos JFrameAnalClini;
 	FrameControles JFrameControl;
 	FramePrincipal JFramePrincipal;
+	public JTextField textFecha;
 	
-	public FrameIngresarPaciente() {
+	public FramePaciente() {
 		
 		InicializarPantalla();
 		}
 
 
 	private void InicializarPantalla() {
-		setTitle("Ingreso de Nuevo Paciente");
+		setTitle("Paciente");
 	//	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 296);
 		contentPane = new JPanel();
@@ -54,24 +55,24 @@ public class FrameIngresarPaciente extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Historia Clinica");
-		lblNewLabel.setBounds(10, 24, 76, 14);
+		lblNewLabel.setBounds(10, 24, 123, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre y Apellido");
-		lblNewLabel_1.setBounds(10, 63, 93, 14);
+		lblNewLabel_1.setBounds(10, 63, 123, 14);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tel\u00E9fono");
-		lblNewLabel_2.setBounds(10, 100, 46, 14);
+		lblNewLabel_2.setBounds(10, 100, 123, 14);
 		panel.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("Fecha de Nacimiento");
+		JLabel lblNewLabel_3 = new JLabel("Primera visita");
 		lblNewLabel_3.setBounds(10, 139, 123, 14);
 		panel.add(lblNewLabel_3);
 		
 		textIdPaciente = new JTextField();
 		textIdPaciente.setEditable(false);
-		textIdPaciente.setBounds(140, 21, 86, 20);
+		textIdPaciente.setBounds(222, 21, 76, 20);
 		panel.add(textIdPaciente);
 		textIdPaciente.setColumns(10);
 		
@@ -81,7 +82,7 @@ public class FrameIngresarPaciente extends JFrame {
 		textNomPaciente.setColumns(30);
 		
 		textTelPAciente = new JTextField();
-		textTelPAciente.setBounds(140, 94, 86, 20);
+		textTelPAciente.setBounds(169, 94, 129, 20);
 		panel.add(textTelPAciente);
 		textTelPAciente.setColumns(20);
 		
@@ -96,11 +97,11 @@ public class FrameIngresarPaciente extends JFrame {
 				JOptionPane.showMessageDialog(rootPane, "Paciente "+Nombre+" Ingresado !!!");
 				
 								
-			btnAnalisisClinicos.setEnabled(true);	
+			btnAnalisis.setEnabled(true);	
 			btnControles.setEnabled(true);
 			}
 		});
-		btnGuardar.setBounds(10, 191, 93, 31);
+		btnGuardar.setBounds(10, 164, 76, 58);
 		panel.add(btnGuardar);
 		
 		btnControles.addActionListener(new ActionListener() {
@@ -109,19 +110,35 @@ public class FrameIngresarPaciente extends JFrame {
 			JFrameControl.setVisible(true);
 			}
 		});
-		btnControles.setEnabled(false);
-		btnControles.setBounds(116, 191, 110, 31);
+		btnControles.setBounds(100, 164, 76, 58);
 		panel.add(btnControles);
 		
-		btnAnalisisClinicos.addActionListener(new ActionListener() {
+		btnAnalisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrameAnalClini=new FrameAnalisiClinicos();
 				JFrameAnalClini.setVisible(true);
 			}
 		});
-		btnAnalisisClinicos.setEnabled(false);
-		btnAnalisisClinicos.setBounds(236, 191, 110, 31);
-		panel.add(btnAnalisisClinicos);
+		btnAnalisis.setBounds(192, 164, 79, 58);
+		panel.add(btnAnalisis);
+		
+		textFecha = new JTextField();
+		textFecha.setEditable(false);
+		textFecha.setBounds(143, 136, 155, 20);
+		panel.add(textFecha);
+		textFecha.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Editar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Conexion con= new Conexion();
+				con.Editar(Integer.parseInt(textIdPaciente.getText()),textNomPaciente.getText(),textTelPAciente.getText());
+				System.out.println(Integer.parseInt(textIdPaciente.getText())+" "+textNomPaciente.getText()+" "+textTelPAciente.getText());
+								
+			}
+		});
+		btnNewButton.setBounds(290, 164, 67, 58);
+		panel.add(btnNewButton);
 	
 	}
 }

@@ -1,25 +1,25 @@
 package Ventanas;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import BasesDatos.*;
-
-import javax.swing.JScrollPane;
+import BasesDatos.Conexion;
 
 public class FramePrincipal extends JFrame {
 
@@ -30,7 +30,7 @@ public class FramePrincipal extends JFrame {
 	private JTextField textField;
 	private JTable JTable1;
 	private ResultSet rs;
-	FrameIngresarPaciente JFrameIngresarPa;
+	FramePaciente JFrameIngresarPa;
 
 	
 	public FramePrincipal() {
@@ -40,28 +40,8 @@ public class FramePrincipal extends JFrame {
 		ActualizarTabla();
 	}
 
-	private void ActualizarTabla() {
-		// TODO Auto-generated method stub
-		DefaultTableModel dfm = new DefaultTableModel();
-		JTable1.setModel(dfm);
-		JTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		dfm.setColumnIdentifiers(new Object[]{"Id","Nombre","Telefono","Fecha"});
-		Conexion con= new Conexion();
-		rs=con.BuscarTodos();
-		try {
-			while(rs.next()){
-				dfm.addRow(new Object[]{rs.getString("IdPaciente"),rs.getString("NomPaciente"),rs.getString("TelPaciente"),rs.getString("FechaInPaciente")});
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//textField.setText(Integer.toString(fila));
-	}
-
 	private void inicializacion() {
-		setTitle("Sistema Integral de Pacientes de Nutricion");
+		setTitle("Sistema Integral de Pacientes - Version 1.0");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// cierra toda la apliccacion
 		setBounds(100, 100, 509, 442);
@@ -74,12 +54,12 @@ public class FramePrincipal extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				JFrameIngresarPa = new FrameIngresarPaciente();
+				JFrameIngresarPa = new FramePaciente();
 				JFrameIngresarPa.setVisible(true);
 				
 			}
 		});
-		btnIngresar.setBounds(10, 143, 135, 55);
+		btnIngresar.setBounds(10, 143, 170, 55);
 		contentPane.add(btnIngresar);
 		
 		JPanel panel = new JPanel();
@@ -169,20 +149,13 @@ public class FramePrincipal extends JFrame {
 		btnBuscarPorTelefono.setBounds(313, 71, 146, 35);
 		panel.add(btnBuscarPorTelefono);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setEnabled(false);
-		scrollPane.setBounds(10, 209, 479, 194);
-		contentPane.add(scrollPane);
-		
-		JTable1 = new JTable();
-		scrollPane.setViewportView(JTable1);
-		
+				
 		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setEnabled(false);
 		btnBorrar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
 				int fila =JTable1.getSelectedRow();
-				//textField.setText(Integer.toString(fila));
 				String IdHistClin= (String)JTable1.getValueAt(fila, 0);
 				
 				System.out.println(IdHistClin);
@@ -194,10 +167,10 @@ public class FramePrincipal extends JFrame {
 				
 			}
 		});
-		btnBorrar.setBounds(198, 143, 89, 55);
+		btnBorrar.setBounds(190, 143, 129, 55);
 		contentPane.add(btnBorrar);
 		
-		JButton btnVerPacientes = new JButton("Ver Todo");
+		JButton btnVerPacientes = new JButton("Actualizar Vista");
 		btnVerPacientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -205,7 +178,83 @@ public class FramePrincipal extends JFrame {
 				
 			}
 		});
-		btnVerPacientes.setBounds(330, 143, 107, 55);
+		btnVerPacientes.setBounds(329, 143, 160, 55);
 		contentPane.add(btnVerPacientes);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setEnabled(false);
+		scrollPane.setBounds(10, 209, 479, 194);
+		contentPane.add(scrollPane);
+		
+		JTable1 = new JTable();
+		JTable1.addMouseListener(new MouseListener() {
+			
+		
+			
+			public void mouseClicked(MouseEvent arg0) {
+				if( JTable1.getSelectedRows().length > 0 ) { 
+					
+					int fila =JTable1.getSelectedRow();
+					//textField.setText(Integer.toString(fila));
+					String IdHistClin= (String)JTable1.getValueAt(fila, 0);
+					String NombreHistClin= (String)JTable1.getValueAt(fila, 1);
+					String TelefonoHistClin= (String)JTable1.getValueAt(fila, 2);
+					String FechaHistClin= (String)JTable1.getValueAt(fila, 3);
+					
+					FramePaciente JFramePaciente= new FramePaciente();
+					JFramePaciente.textIdPaciente.setText(IdHistClin);
+					JFramePaciente.textNomPaciente.setText(NombreHistClin);
+					JFramePaciente.textTelPAciente.setText(TelefonoHistClin);
+					JFramePaciente.textFecha.setText(FechaHistClin);
+					
+					JFramePaciente.setVisible(true);
+					
+			        //   JOptionPane.showMessageDialog( JTable1 ,"No son molestos los popups?");
+			         }
+			}
+
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				
+				
+			}
+
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		scrollPane.setViewportView(JTable1);
+		}
+
+	public void ActualizarTabla() {
+		// TODO Auto-generated method stub
+		DefaultTableModel dfm = new DefaultTableModel();
+		JTable1.setModel(dfm);
+		JTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		dfm.setColumnIdentifiers(new Object[]{"Id","Nombre","Telefono","Fecha"});
+		Conexion con= new Conexion();
+		rs=con.BuscarTodos();
+		try {
+			while(rs.next()){
+				dfm.addRow(new Object[]{rs.getString("IdPaciente"),rs.getString("NomPaciente"),rs.getString("TelPaciente"),rs.getString("FechaInPaciente")});
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
+
 }
