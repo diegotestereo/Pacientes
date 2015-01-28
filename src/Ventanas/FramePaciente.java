@@ -114,9 +114,11 @@ public class FramePaciente extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				 java.util.Date date= new java.util.Date();
 			JFrameControl=new FrameControles();
+			JFrameControl.textIdPaciente.setText(textIdPaciente.getText());
 			JFrameControl.textNomPacienteC.setText(textNomPaciente.getText());
 			JFrameControl.textFechaC.setText(textFecha.getText().substring(0,10));
 			JFrameControl.textFechaC.setText(String.valueOf(new Timestamp(date.getTime())).substring(0,10));
+			JFrameControl.btnGuardarControl.setEnabled(false);
 			JFrameControl.setVisible(true);
 			}
 		});
