@@ -24,6 +24,7 @@ import org.omg.CORBA.Current;
 
 import BasesDatos.Conexion;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 public class FramePrincipal extends JFrame {
 
@@ -80,6 +81,7 @@ public class FramePrincipal extends JFrame {
 		panel.setLayout(null);
 		
 		textNombre = new JTextField();
+		textNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		textNombre.setToolTipText("Ingrese el nombre y apellido del paciente");
 		textNombre.setBounds(138, 46, 163, 20);
 		panel.add(textNombre);
@@ -94,6 +96,7 @@ public class FramePrincipal extends JFrame {
 		panel.add(lblNewLabel);
 		
 		textTelefono = new JTextField();
+		textTelefono.setHorizontalAlignment(SwingConstants.CENTER);
 		textTelefono.setToolTipText("Ingrese Telefono");
 		textTelefono.setBounds(138, 84, 98, 20);
 		panel.add(textTelefono);
@@ -104,6 +107,7 @@ public class FramePrincipal extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		textField = new JTextField();
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setToolTipText("Identificador \u00FAnico del paciente");
 		textField.setEditable(false);
 		textField.setBounds(138, 8, 86, 20);
