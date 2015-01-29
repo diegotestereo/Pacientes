@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import BasesDatos.Conexion;
+import javax.swing.SwingConstants;
 
 public class FramePaciente extends JFrame {
 
@@ -71,17 +72,20 @@ public class FramePaciente extends JFrame {
 		panel.add(lblNewLabel_3);
 		
 		textIdPaciente = new JTextField();
+		textIdPaciente.setHorizontalAlignment(SwingConstants.CENTER);
 		textIdPaciente.setEditable(false);
 		textIdPaciente.setBounds(222, 21, 76, 20);
 		panel.add(textIdPaciente);
 		textIdPaciente.setColumns(10);
 		
 		textNomPaciente = new JTextField();
+		textNomPaciente.setHorizontalAlignment(SwingConstants.CENTER);
 		textNomPaciente.setBounds(140, 57, 158, 20);
 		panel.add(textNomPaciente);
 		textNomPaciente.setColumns(30);
 		
 		textTelPAciente = new JTextField();
+		textTelPAciente.setHorizontalAlignment(SwingConstants.CENTER);
 		textTelPAciente.setBounds(169, 94, 129, 20);
 		panel.add(textTelPAciente);
 		textTelPAciente.setColumns(20);
@@ -100,7 +104,10 @@ public class FramePaciente extends JFrame {
 			btnAnalisis.setEnabled(true);	
 			btnControles.setEnabled(true);
 			btnEditar.setEnabled(true);
-			btnGuardar.setEnabled(false);}
+			btnGuardar.setEnabled(false);
+			textNomPaciente.setEditable(false);
+			textTelPAciente.setEditable(false);
+			}
 			else{
 				JOptionPane.showMessageDialog(rootPane, "Ingrese Nombre y Telefono !!!");
 				
@@ -135,6 +142,7 @@ public class FramePaciente extends JFrame {
 		panel.add(btnAnalisis);
 		
 		textFecha = new JTextField();
+		textFecha.setHorizontalAlignment(SwingConstants.CENTER);
 		textFecha.setEditable(false);
 		textFecha.setBounds(143, 136, 155, 20);
 		panel.add(textFecha);
@@ -143,11 +151,13 @@ public class FramePaciente extends JFrame {
 		
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				int opcionEditar=JOptionPane.showConfirmDialog(null, "Desea Guardar Cambios?","Elija ", JOptionPane.YES_NO_OPTION);
+				if(opcionEditar==0){
 				Conexion con= new Conexion();
 				con.Editar(Integer.parseInt(textIdPaciente.getText()),textNomPaciente.getText(),textTelPAciente.getText());
 				System.out.println(Integer.parseInt(textIdPaciente.getText())+" "+textNomPaciente.getText()+" "+textTelPAciente.getText());
-								
-			}
+				}else{}
+				}
 		});
 		btnEditar.setBounds(290, 164, 67, 58);
 		panel.add(btnEditar);

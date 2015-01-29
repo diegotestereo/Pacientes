@@ -21,6 +21,15 @@ import javax.swing.JTextArea;
 
 import jdk.nashorn.internal.scripts.JO;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.JCommon;
+import javax.swing.SwingConstants;
+
 public class FrameControles extends JFrame {
 
 	private JPanel contentPane;
@@ -128,12 +137,50 @@ public class FrameControles extends JFrame {
 	final JTextArea textAreaObs = new JTextArea();
 	scrollPane.setViewportView(textAreaObs);
 	textPesoC = new JTextField();
+	textPesoC.setToolTipText("utilice el punto \".\" para los decimales");
+	textPesoC.setHorizontalAlignment(SwingConstants.CENTER);
 	textPesoC.setBounds(109, 115, 46, 19);
 	panel.add(textPesoC);
 	textPesoC.setColumns(10);
 	
 	JButton btnTablaPeso = new JButton("Tabla Peso");
-	btnTablaPeso.setBounds(239, 112, 99, 23);
+	btnTablaPeso.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		//	FrameGraficas frame = new FrameGraficas();
+		//	frame.setVisible(true);
+			
+		/*	double cat1= 2.4;
+			double cat2= 4.4;
+			double cat3= 6.7;
+			
+			DefaultPieDataset data= new DefaultPieDataset();
+			data.setValue("Categoria 1", cat1);
+			data.setValue("Categoria 2", cat2);
+			data.setValue("Categoria 3", cat3);
+			//JFreeChart chart=ChartFactory.createPieChart3D("Gordos del ORTO", data,true,true,true);
+			*/
+			
+			XYSeries xygrafico=new XYSeries("Control Peso Diego Giovanazzi");
+			xygrafico.add(1, 80);
+			xygrafico.add(2, 81.4);
+			xygrafico.add(3, 90.5);
+			xygrafico.add(4, 70.6);
+			
+			
+			XYSeriesCollection dataset=new XYSeriesCollection();
+			dataset.addSeries(xygrafico);
+			
+			
+			
+			JFreeChart chart=ChartFactory.createXYLineChart("Peso", "Semanas", "Peso (Kg)", dataset);
+			
+		//	JFreeChart chart=ChartFactory.createPieChart("Peso Estadistico", data);
+			ChartFrame frame = new ChartFrame("Control de Peso", chart);
+			frame.pack();
+			frame.setVisible(true);
+		}
+	});
+	btnTablaPeso.setBounds(239, 112, 112, 46);
 	panel.add(btnTablaPeso);
 	
 	btnGuardarControl = new JButton("Guardar Control");
@@ -167,6 +214,8 @@ public class FrameControles extends JFrame {
 	panel.add(lblNewLabel_7);
 	
 	textAlturaC = new JTextField();
+	textAlturaC.setToolTipText("utilice el punto \".\" para los decimales");
+	textAlturaC.setHorizontalAlignment(SwingConstants.CENTER);
 	textAlturaC.setBounds(109, 141, 46, 20);
 	panel.add(textAlturaC);
 	textAlturaC.setColumns(10);
@@ -176,12 +225,14 @@ public class FrameControles extends JFrame {
 	panel.add(lblNewLabel_8);
 	
 	textNomPacienteC = new JTextField();
+	textNomPacienteC.setHorizontalAlignment(SwingConstants.CENTER);
 	textNomPacienteC.setEditable(false);
-	textNomPacienteC.setBounds(109, 56, 102, 20);
+	textNomPacienteC.setBounds(109, 56, 131, 20);
 	panel.add(textNomPacienteC);
 	textNomPacienteC.setColumns(10);
 	
 	textCalculoIMC = new JTextField();
+	textCalculoIMC.setHorizontalAlignment(SwingConstants.CENTER);
 	textCalculoIMC.setText("0");
 	textCalculoIMC.setEditable(false);
 	textCalculoIMC.setBounds(109, 169, 46, 20);
@@ -197,6 +248,7 @@ public class FrameControles extends JFrame {
 	panel.add(lblNewLabel_5);
 	
 	textFechaC = new JTextField();
+	textFechaC.setHorizontalAlignment(SwingConstants.CENTER);
 	textFechaC.setEditable(false);
 	textFechaC.setBounds(109, 87, 106, 20);
 	panel.add(textFechaC);
@@ -227,7 +279,7 @@ public class FrameControles extends JFrame {
 	});
 	
 	
-	btnCalcIMC.setBounds(239, 166, 99, 23);
+	btnCalcIMC.setBounds(239, 166, 112, 51);
 	panel.add(btnCalcIMC);
 	
 	JLabel lblDisgnostico = new JLabel("Disgnostico");
@@ -239,12 +291,14 @@ public class FrameControles extends JFrame {
 	panel.add(lblHitoriaClinica);
 	
 	textIdPaciente = new JTextField();
+	textIdPaciente.setHorizontalAlignment(SwingConstants.CENTER);
 	textIdPaciente.setEditable(false);
 	textIdPaciente.setBounds(109, 19, 50, 20);
 	panel.add(textIdPaciente);
 	textIdPaciente.setColumns(10);
 	
 	textDiagnostico = new JTextField();
+	textDiagnostico.setHorizontalAlignment(SwingConstants.CENTER);
 	textDiagnostico.setEditable(false);
 	textDiagnostico.setBounds(109, 197, 117, 20);
 	panel.add(textDiagnostico);
