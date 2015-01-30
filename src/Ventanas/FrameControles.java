@@ -3,6 +3,8 @@ package Ventanas;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,7 +30,10 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.JCommon;
+
 import javax.swing.SwingConstants;
+
+import BasesDatos.Conexion;
 
 public class FrameControles extends JFrame {
 
@@ -42,7 +47,7 @@ public class FrameControles extends JFrame {
 	JButton btnGuardarControl;
 	String DiagnosticoBool;
 	private JTextField textDiagnostico;
-	
+	private ResultSet rs;
 	public FrameControles() {
 		Inicializa();
 		
@@ -135,6 +140,7 @@ public class FrameControles extends JFrame {
 	panel.add(scrollPane);
 	
 	final JTextArea textAreaObs = new JTextArea();
+	textAreaObs.setToolTipText("Ingrese Alguna observaci\u00F3n para guardar el control");
 	scrollPane.setViewportView(textAreaObs);
 	textPesoC = new JTextField();
 	textPesoC.setToolTipText("utilice el punto \".\" para los decimales");
@@ -146,35 +152,28 @@ public class FrameControles extends JFrame {
 	JButton btnTablaPeso = new JButton("Tabla Peso");
 	btnTablaPeso.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-		//	FrameGraficas frame = new FrameGraficas();
-		//	frame.setVisible(true);
+			int id =Integer.parseInt(textIdPaciente.getText());
+			Conexion con= new Conexion();
 			
-		/*	double cat1= 2.4;
-			double cat2= 4.4;
-			double cat3= 6.7;
+			rs=con.BuscarControles(id);
+			int c=0;
+			XYSeries xygrafico=new XYSeries("Control Peso de:"+textNomPacienteC.getText());
 			
-			DefaultPieDataset data= new DefaultPieDataset();
-			data.setValue("Categoria 1", cat1);
-			data.setValue("Categoria 2", cat2);
-			data.setValue("Categoria 3", cat3);
-			//JFreeChart chart=ChartFactory.createPieChart3D("Gordos del ORTO", data,true,true,true);
-			*/
-			
-			XYSeries xygrafico=new XYSeries("Control Peso Diego Giovanazzi");
-			xygrafico.add(1, 80);
-			xygrafico.add(2, 81.4);
-			xygrafico.add(3, 90.5);
-			xygrafico.add(4, 70.6);
-			
-			
-			XYSeriesCollection dataset=new XYSeriesCollection();
+			try {
+				while(rs.next()){
+					System.out.println("Peso: "+rs.getString("PesoControl")+" - Altura: "+rs.getString("AlturaControl")+" - IMC: "+rs.getString("IMCControl")+" - Obs: "+rs.getString("ObsControl")+" - Fecha: "+rs.getString("FechaControl"));
+					float peso=Float.parseFloat(rs.getString("PesoControl"));
+					System.out.println(c+" "+peso);
+					xygrafico.add(c, peso);
+					c++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	XYSeriesCollection dataset=new XYSeriesCollection();
 			dataset.addSeries(xygrafico);
-			
-			
-			
-			JFreeChart chart=ChartFactory.createXYLineChart("Peso", "Semanas", "Peso (Kg)", dataset);
-			
-		//	JFreeChart chart=ChartFactory.createPieChart("Peso Estadistico", data);
+			JFreeChart chart=ChartFactory.createXYLineChart(textNomPacienteC.getText(), "Fecha Control", "Peso (Kg)", dataset);
 			ChartFrame frame = new ChartFrame("Control de Peso", chart);
 			frame.pack();
 			frame.setVisible(true);
@@ -184,6 +183,7 @@ public class FrameControles extends JFrame {
 	panel.add(btnTablaPeso);
 	
 	btnGuardarControl = new JButton("Guardar Control");
+	btnGuardarControl.setEnabled(false);
 	btnGuardarControl.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(!(textAreaObs.getText().equals(""))){
@@ -197,6 +197,8 @@ public class FrameControles extends JFrame {
 			con.InsertarControl(Id, Peso,IMC,Altura,Obs);
 		
 			JOptionPane.showMessageDialog(rootPane, "Control Ingresado !!!");
+			textPesoC.setText("");
+			textAreaObs.setText("");
 		
 			}else{
 				
@@ -267,7 +269,7 @@ public class FrameControles extends JFrame {
 			btnGuardarControl.setEnabled(true);
 		
 			textDiagnostico.setText(DiagnosticarIMC(IMC));
-		
+		btnGuardarControl.setEnabled(true);
 			
 			}else{
 				

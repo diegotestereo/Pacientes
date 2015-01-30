@@ -27,6 +27,7 @@ public class Conexion {
 	
 	
 	
+	
 	public void Insertar(String Nombre,String telefono){
 		
 		Connection con=Conectar();
@@ -115,6 +116,21 @@ public class Conexion {
 			st=con.createStatement();
 			rs=st.executeQuery("SELECT * FROM tablapacientes");
 			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet BuscarControles(int Id){
+		
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs = null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM tablacontrol WHERE IdPaciente = '"+Id+"'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rs;

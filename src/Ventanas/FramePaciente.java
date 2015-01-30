@@ -13,8 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import BasesDatos.Conexion;
+
 import javax.swing.SwingConstants;
 
 public class FramePaciente extends JFrame {
@@ -83,12 +86,45 @@ public class FramePaciente extends JFrame {
 		textNomPaciente.setBounds(140, 57, 158, 20);
 		panel.add(textNomPaciente);
 		textNomPaciente.setColumns(30);
+		textNomPaciente.getDocument().addDocumentListener(new DocumentListener() {
+			
+			public void removeUpdate(DocumentEvent arg0) {
+				btnEditar.setEnabled(true);
+			}
+			
+			public void insertUpdate(DocumentEvent arg0) {
+	//			btnEditar.setEnabled(true);
+				
+			}
+			
+			public void changedUpdate(DocumentEvent arg0) {
+				btnEditar.setEnabled(true);
+				
+			}
+		});
 		
 		textTelPAciente = new JTextField();
 		textTelPAciente.setHorizontalAlignment(SwingConstants.CENTER);
 		textTelPAciente.setBounds(169, 94, 129, 20);
 		panel.add(textTelPAciente);
 		textTelPAciente.setColumns(20);
+		textTelPAciente.getDocument().addDocumentListener(new DocumentListener() {
+			
+			public void removeUpdate(DocumentEvent arg0) {
+				btnEditar.setEnabled(true);
+			}
+			
+			public void insertUpdate(DocumentEvent arg0) {
+		//		btnEditar.setEnabled(true);
+			}
+			
+			public void changedUpdate(DocumentEvent arg0) {
+			//	btnEditar.setEnabled(true);
+				
+			}
+		});
+		btnGuardar.setToolTipText("Almacena el Paciente en la base de datos");
+		
 		
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -114,8 +150,9 @@ public class FramePaciente extends JFrame {
 			}
 			}
 		});
-		btnGuardar.setBounds(10, 164, 95, 58);
+		btnGuardar.setBounds(10, 164, 84, 58);
 		panel.add(btnGuardar);
+		btnControles.setToolTipText("Muestra los Controles");
 		
 		btnControles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -129,8 +166,9 @@ public class FramePaciente extends JFrame {
 			JFrameControl.setVisible(true);
 			}
 		});
-		btnControles.setBounds(115, 164, 76, 58);
+		btnControles.setBounds(104, 164, 76, 58);
 		panel.add(btnControles);
+		btnAnalisis.setToolTipText("Muestra los Analisis Clinicos");
 		
 		btnAnalisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -138,7 +176,7 @@ public class FramePaciente extends JFrame {
 				JFrameAnalClini.setVisible(true);
 			}
 		});
-		btnAnalisis.setBounds(201, 164, 79, 58);
+		btnAnalisis.setBounds(190, 164, 79, 58);
 		panel.add(btnAnalisis);
 		
 		textFecha = new JTextField();
@@ -147,6 +185,8 @@ public class FramePaciente extends JFrame {
 		textFecha.setBounds(143, 136, 155, 20);
 		panel.add(textFecha);
 		textFecha.setColumns(10);
+		btnEditar.setEnabled(false);
+		btnEditar.setToolTipText("Almacenar Cambios");
 		
 		
 		btnEditar.addActionListener(new ActionListener() {
@@ -155,11 +195,11 @@ public class FramePaciente extends JFrame {
 				if(opcionEditar==0){
 				Conexion con= new Conexion();
 				con.Editar(Integer.parseInt(textIdPaciente.getText()),textNomPaciente.getText(),textTelPAciente.getText());
-				System.out.println(Integer.parseInt(textIdPaciente.getText())+" "+textNomPaciente.getText()+" "+textTelPAciente.getText());
+				btnEditar.setEnabled(false);
 				}else{}
 				}
 		});
-		btnEditar.setBounds(290, 164, 67, 58);
+		btnEditar.setBounds(279, 164, 78, 58);
 		panel.add(btnEditar);
 	
 	}
