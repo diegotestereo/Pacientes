@@ -9,6 +9,7 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.JCommon;
+import javax.swing.JLabel;
 
 
 public class FrameGraficas extends JFrame {
@@ -24,6 +25,9 @@ public class FrameGraficas extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel lblTodoooo = new JLabel("todoooo");
+		lblTodoooo.setBounds(24, 11, 109, 26);
+		contentPane.add(lblTodoooo);
 	}
-
 }

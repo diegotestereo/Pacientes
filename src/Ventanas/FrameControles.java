@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.scene.chart.BarChart;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +27,11 @@ import jdk.nashorn.internal.scripts.JO;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -157,26 +163,36 @@ public class FrameControles extends JFrame {
 			
 			rs=con.BuscarControles(id);
 			int c=0;
-			XYSeries xygrafico=new XYSeries("Control Peso de:"+textNomPacienteC.getText());
-			
+			//XYSeries xygrafico=new XYSeries("Control Peso de:"+textNomPacienteC.getText());
+		//	BarChart xygrafico = new BarChart("pppp", "yyyyy");
+			DefaultCategoryDataset Datos = new DefaultCategoryDataset();
+		
 			try {
 				while(rs.next()){
 					System.out.println("Peso: "+rs.getString("PesoControl")+" - Altura: "+rs.getString("AlturaControl")+" - IMC: "+rs.getString("IMCControl")+" - Obs: "+rs.getString("ObsControl")+" - Fecha: "+rs.getString("FechaControl"));
 					float peso=Float.parseFloat(rs.getString("PesoControl"));
 					System.out.println(c+" "+peso);
-					xygrafico.add(c, peso);
+					Datos.addValue(peso, textNomPacienteC.getText(),rs.getString("FechaControl").substring(0,10));
 					c++;
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	XYSeriesCollection dataset=new XYSeriesCollection();
-			dataset.addSeries(xygrafico);
-			JFreeChart chart=ChartFactory.createXYLineChart(textNomPacienteC.getText(), "Fecha Control", "Peso (Kg)", dataset);
-			ChartFrame frame = new ChartFrame("Control de Peso", chart);
-			frame.pack();
-			frame.setVisible(true);
+	//XYSeriesCollection dataset=new XYSeriesCollection();
+			
+		//	dataset.addSeries(xygrafico);
+			
+		
+			//JFreeChart chart=ChartFactory.createXYLineChart(textNomPacienteC.getText(), "Fecha Control", "Peso (Kg)", dataset);
+			JFreeChart grafica=ChartFactory.createBarChart(textNomPacienteC.getText(), "Fecha Control", "Peso (Kg)",  Datos,PlotOrientation.VERTICAL,true,true,true);
+			//ChartFrame frame = new ChartFrame("Control de Peso", chart);
+			ChartPanel panel=new ChartPanel(grafica);
+			JFrame Ventana= new JFrame();
+			
+			Ventana.getContentPane().add(panel);
+			Ventana.pack();
+			Ventana.setVisible(true);
 		}
 	});
 	btnTablaPeso.setBounds(239, 112, 112, 46);

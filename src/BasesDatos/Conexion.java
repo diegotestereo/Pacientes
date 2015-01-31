@@ -28,22 +28,59 @@ public class Conexion {
 	
 	
 	
-	public void Insertar(String Nombre,String telefono){
+	public void InsertarAntecedentes(int Nombre,boolean diabet,boolean enfcar,boolean colest,boolean insulino,boolean hipo,boolean hiper,String otros){
 		
 		Connection con=Conectar();
-		try {
-			PreparedStatement pst =con.prepareStatement("INSERT INTO tablapacientes (NomPaciente,TelPaciente) VALUES (?,?)");
-			pst.setString(1,Nombre);
-			pst.setString(2,telefono);
-			pst.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-		}
+		
+			PreparedStatement pst;
+			try {
+				pst = con.prepareStatement("INSERT INTO antecedentesclinicos (IdPaciente,Diabetes,EnfermedadCardio,"
+						+"Colesterol,InsulinoResistente,Hipotiroidismo,Hipertiroidismo,Otros) VALUES (?,?,?,?,?,?,?,?)");
+				pst.setInt(1,Nombre);
+				/*pst.setBoolean(2,diabet);
+				pst.setBoolean(3,enfcar);
+				pst.setBoolean(4,colest);
+				pst.setBoolean(5,insulino);
+				pst.setBoolean(6,hiper);
+				pst.setBoolean(7,hipo);*/
+				
+				pst.setInt(2,1);
+				pst.setInt(3,1);
+				pst.setInt(4,1);
+				pst.setInt(5,1);
+				pst.setInt(6,1);
+				pst.setInt(7,1);
+				pst.setInt(8,1);
+				pst.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
 	
 	}
 	
+	public void InsertarPAcientes(String Nombre,String Telefono){
+		Connection con =Conectar();
+		try {
+			PreparedStatement pst =con.prepareStatement("INSERT INTO tablapacientes (NomPaciente,TelPaciente) VALUES (?,?)");
+			pst.setString(1,Nombre);
+			pst.setString(2,Telefono);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void InsertarAnalisis(){
+		
+		
+		
+		
+	}
 	public void InsertarControl(int Id,double peso,double imc,double altura,String Observaciones){
 		
 		Connection con =Conectar();
@@ -64,11 +101,7 @@ public class Conexion {
 			e.printStackTrace();
 		}
 		
-		
-		
-		
-		
-		
+	
 	}
 	
  	public void Editar(int id,String Nombre,String Telefono){

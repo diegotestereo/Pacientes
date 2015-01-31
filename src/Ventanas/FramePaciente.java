@@ -26,11 +26,11 @@ public class FramePaciente extends JFrame {
 	public JTextField textIdPaciente;
 	public JTextField textNomPaciente;
 	public JTextField textTelPAciente;
-	JButton btnAnalisis = new JButton("Analisis");
-	JButton btnControles = new JButton("Control");
+	JButton btnAnalisis = new JButton("Antecedentes Clinicos y Lab.");
+	JButton btnControles = new JButton("Controles");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
-	FrameAnalisiClinicos JFrameAnalClini;
+	FrameAntecedentesAnalisis JFrameAnalClini;
 	FrameControles JFrameControl;
 	FramePrincipal JFramePrincipal;
 	public JTextField textFecha;
@@ -45,7 +45,7 @@ public class FramePaciente extends JFrame {
 	private void InicializarPantalla() {
 		setTitle("Paciente");
 	//	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 296);
+		setBounds(100, 100, 391, 379);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,7 +54,7 @@ public class FramePaciente extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(238, 232, 170));
 		panel.setBorder(new LineBorder(new Color(240, 230, 140), 1, true));
-		panel.setBounds(10, 11, 367, 239);
+		panel.setBounds(10, 11, 357, 329);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -77,13 +77,13 @@ public class FramePaciente extends JFrame {
 		textIdPaciente = new JTextField();
 		textIdPaciente.setHorizontalAlignment(SwingConstants.CENTER);
 		textIdPaciente.setEditable(false);
-		textIdPaciente.setBounds(222, 21, 76, 20);
+		textIdPaciente.setBounds(248, 18, 93, 20);
 		panel.add(textIdPaciente);
 		textIdPaciente.setColumns(10);
 		
 		textNomPaciente = new JTextField();
 		textNomPaciente.setHorizontalAlignment(SwingConstants.CENTER);
-		textNomPaciente.setBounds(140, 57, 158, 20);
+		textNomPaciente.setBounds(166, 54, 175, 20);
 		panel.add(textNomPaciente);
 		textNomPaciente.setColumns(30);
 		textNomPaciente.getDocument().addDocumentListener(new DocumentListener() {
@@ -105,7 +105,7 @@ public class FramePaciente extends JFrame {
 		
 		textTelPAciente = new JTextField();
 		textTelPAciente.setHorizontalAlignment(SwingConstants.CENTER);
-		textTelPAciente.setBounds(169, 94, 129, 20);
+		textTelPAciente.setBounds(195, 91, 146, 20);
 		panel.add(textTelPAciente);
 		textTelPAciente.setColumns(20);
 		textTelPAciente.getDocument().addDocumentListener(new DocumentListener() {
@@ -131,10 +131,17 @@ public class FramePaciente extends JFrame {
 				String Nombre=textNomPaciente.getText();
 				String Telefono=textTelPAciente.getText();
 				
-			if (!((Nombre.equals(""))||(Telefono.equals("")))){
+				
+				boolean r = textNomPaciente.getText().isEmpty();
+				r|=textTelPAciente.getText().isEmpty();
+				System.out.println(r);
+				
+				
+				
+			if (!(r)){
 				System.out.println(Telefono);
 				Conexion con = new Conexion();
-				con.Insertar(Nombre, Telefono);
+				con.InsertarPAcientes(Nombre, Telefono);
 				JOptionPane.showMessageDialog(rootPane, "Paciente "+Nombre+" Ingresado !!!");
 									
 			btnAnalisis.setEnabled(true);	
@@ -150,7 +157,7 @@ public class FramePaciente extends JFrame {
 			}
 			}
 		});
-		btnGuardar.setBounds(10, 164, 84, 58);
+		btnGuardar.setBounds(10, 228, 331, 42);
 		panel.add(btnGuardar);
 		btnControles.setToolTipText("Muestra los Controles");
 		
@@ -166,23 +173,23 @@ public class FramePaciente extends JFrame {
 			JFrameControl.setVisible(true);
 			}
 		});
-		btnControles.setBounds(104, 164, 76, 58);
+		btnControles.setBounds(10, 164, 107, 53);
 		panel.add(btnControles);
 		btnAnalisis.setToolTipText("Muestra los Analisis Clinicos");
 		
 		btnAnalisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFrameAnalClini=new FrameAnalisiClinicos();
+				JFrameAnalClini=new FrameAntecedentesAnalisis();
 				JFrameAnalClini.setVisible(true);
 			}
 		});
-		btnAnalisis.setBounds(190, 164, 79, 58);
+		btnAnalisis.setBounds(127, 164, 214, 53);
 		panel.add(btnAnalisis);
 		
 		textFecha = new JTextField();
 		textFecha.setHorizontalAlignment(SwingConstants.CENTER);
 		textFecha.setEditable(false);
-		textFecha.setBounds(143, 136, 155, 20);
+		textFecha.setBounds(169, 133, 172, 20);
 		panel.add(textFecha);
 		textFecha.setColumns(10);
 		btnEditar.setEnabled(false);
@@ -199,7 +206,7 @@ public class FramePaciente extends JFrame {
 				}else{}
 				}
 		});
-		btnEditar.setBounds(279, 164, 78, 58);
+		btnEditar.setBounds(10, 281, 331, 37);
 		panel.add(btnEditar);
 	
 	}
