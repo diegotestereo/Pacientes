@@ -34,7 +34,7 @@ public class FramePrincipal extends JFrame {
 	private JTextField textTelefono;
 	private JTextField textField;
 	private JTable JTable1;
-	private ResultSet rs;
+	private ResultSet rs=null;
 	FramePaciente JFrameIngresarPa;
 
 	

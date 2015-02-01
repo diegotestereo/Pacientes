@@ -25,32 +25,78 @@ public class Conexion {
 		
 	}
 	
+	public void EditarAntecendentes(int IdNombre,int diabet,int enfcar,int colest,int insulino,int hipo,int hiper,String otros){
+		Connection con=Conectar();
+		
+		PreparedStatement pst;
+		
+		try {
+			pst = con.prepareStatement("UPDATE antecedentesclinicos SET Diabetes=?,EnfermedadCardio=?,Colesterol=?,InsulinoResistente=?,Hipotiroidismo=?,Hipertiroidismo=?,Otros=?  WHERE  IdPaciente='"+IdNombre+"'");
+			pst.setInt(1,diabet);
+			pst.setInt(2,enfcar);
+			pst.setInt(3,colest);
+			pst.setInt(4,insulino);
+			pst.setInt(5,hiper);
+			pst.setInt(6,hipo);
+			pst.setString(7,otros);
+			pst.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public ResultSet BuscarAntecedentes(int IdPaciente){
+		
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs=null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM antecedentesclinicos WHERE idPaciente='"+IdPaciente+"' ");
+			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	return rs;
+	
+	}
 	
 	
+public ResultSet BuscaAnalisis(int IdPaciente){
+		
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs=null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM tablalaboratorio WHERE idPaciente='"+IdPaciente+"' ");
+			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	return rs;
 	
-	public void InsertarAntecedentes(int Nombre,boolean diabet,boolean enfcar,boolean colest,boolean insulino,boolean hipo,boolean hiper,String otros){
+	}
+	
+
+	public void InsertarAntecedentes(int Nombre,int diabet,int enfcar,int colest,int insulino,int hipo,int hiper,String otros){
 		
 		Connection con=Conectar();
 		
 			PreparedStatement pst;
 			try {
-				pst = con.prepareStatement("INSERT INTO antecedentesclinicos (IdPaciente,Diabetes,EnfermedadCardio,"
-						+"Colesterol,InsulinoResistente,Hipotiroidismo,Hipertiroidismo,Otros) VALUES (?,?,?,?,?,?,?,?)");
+				pst = con.prepareStatement("INSERT INTO antecedentesclinicos (IdPaciente,Diabetes,EnfermedadCardio,Colesterol,InsulinoResistente,Hipotiroidismo,Hipertiroidismo,Otros) VALUES (?,?,?,?,?,?,?,?)");
+			
 				pst.setInt(1,Nombre);
-				/*pst.setBoolean(2,diabet);
-				pst.setBoolean(3,enfcar);
-				pst.setBoolean(4,colest);
-				pst.setBoolean(5,insulino);
-				pst.setBoolean(6,hiper);
-				pst.setBoolean(7,hipo);*/
-				
-				pst.setInt(2,1);
-				pst.setInt(3,1);
-				pst.setInt(4,1);
-				pst.setInt(5,1);
-				pst.setInt(6,1);
-				pst.setInt(7,1);
-				pst.setInt(8,1);
+				pst.setInt(2,diabet);
+				pst.setInt(3,enfcar);
+				pst.setInt(4,colest);
+				pst.setInt(5,insulino);
+				pst.setInt(6,hiper);
+				pst.setInt(7,hipo);
+				pst.setString(8,otros);
 				pst.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -61,12 +107,13 @@ public class Conexion {
 	
 	}
 	
-	public void InsertarPAcientes(String Nombre,String Telefono){
+	public void InsertarPacientes(String Nombre,String Telefono){
 		Connection con =Conectar();
 		try {
 			PreparedStatement pst =con.prepareStatement("INSERT INTO tablapacientes (NomPaciente,TelPaciente) VALUES (?,?)");
 			pst.setString(1,Nombre);
 			pst.setString(2,Telefono);
+			pst.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,7 +122,34 @@ public class Conexion {
 		
 	}
 	
-	public void InsertarAnalisis(){
+	public void InsertarAnalisis(int IdPaciente,float Hematocrito,float Hemoglobina,float ColesTotal,float ColesLDL,float ColesHDL,
+			float IndAtero,float Glucemia,float Insulina,float IndHoma,float Urea,float Creatinina,float Tsh,String Otros){
+		
+		Connection con= Conectar();
+		PreparedStatement pst;
+		
+		try {
+			pst=con.prepareStatement("INSERT INTO tablalaboratorio (IdPaciente,Hematocrito,Hemoglobina,ColesterolTotal,ColesterolLDL,ColesterolHDL,IndiceAterogenico,Glucemia,Insulina,IndiceHoma,Urea,Creatinina,TSH,Otros) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			pst.setInt(1,IdPaciente);
+			pst.setFloat(2,Hematocrito);
+			pst.setFloat(3,Hemoglobina);
+			pst.setFloat(4,ColesTotal);
+			pst.setFloat(5,ColesLDL);
+			pst.setFloat(6,ColesHDL);
+			pst.setFloat(7,IndAtero);
+			pst.setFloat(8,Glucemia);
+			pst.setFloat(9,Insulina);
+			pst.setFloat(10,IndHoma);
+			pst.setFloat(11,Urea);
+			pst.setFloat(12,Creatinina);
+			pst.setFloat(13,Tsh);
+			pst.setString(14,Otros);
+			pst.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 		

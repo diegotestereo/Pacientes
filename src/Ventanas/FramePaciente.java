@@ -141,7 +141,7 @@ public class FramePaciente extends JFrame {
 			if (!(r)){
 				System.out.println(Telefono);
 				Conexion con = new Conexion();
-				con.InsertarPAcientes(Nombre, Telefono);
+				con.InsertarPacientes(Nombre, Telefono);
 				JOptionPane.showMessageDialog(rootPane, "Paciente "+Nombre+" Ingresado !!!");
 									
 			btnAnalisis.setEnabled(true);	
@@ -180,6 +180,8 @@ public class FramePaciente extends JFrame {
 		btnAnalisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrameAnalClini=new FrameAntecedentesAnalisis();
+				JFrameAnalClini.textIdPaciente.setText(textIdPaciente.getText());
+				JFrameAnalClini.textNombre.setText(textNomPaciente.getText());
 				JFrameAnalClini.setVisible(true);
 			}
 		});
