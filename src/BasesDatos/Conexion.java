@@ -54,7 +54,7 @@ public class Conexion {
 		ResultSet rs=null;
 		try {
 			st=con.createStatement();
-			rs=st.executeQuery("SELECT * FROM antecedentesclinicos WHERE idPaciente='"+IdPaciente+"' ");
+			rs=st.executeQuery("SELECT * FROM antecedentesclinicos WHERE IdPaciente='"+IdPaciente+"' ");
 			} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -63,6 +63,21 @@ public class Conexion {
 	
 	}
 	
+	public ResultSet BuscaPesos(int IdPaciente){
+		Connection con=Conectar();
+		Statement st;
+		ResultSet rs=null;
+		try {
+			st=con.createStatement();
+			rs=st.executeQuery("SELECT * FROM tablacontrol WHERE IdPaciente='"+IdPaciente+"'");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
 	
 	public ResultSet BuscaAnalisis(int IdPaciente){
 		

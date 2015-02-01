@@ -37,16 +37,18 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 		
 		DefaultTableModel dfm = new DefaultTableModel();
 		tablaAnalisisClinicos.setModel(dfm);
-		tablaAnalisisClinicos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaAnalisisClinicos.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		dfm.setColumnIdentifiers(new Object[]{"Fecha", "Hematocrito", "Hemoglobina", "ColesTotal", "ColesLDL", "ColesHDL", "IndAtero"
 				, "Glucemia", "Insulina", "IndHoma", "Urea", "Creatinina", "Tsh", "Otros"});
 		Conexion con= new Conexion();
 		ResultSet rs=null;
+		//int id=Integer.parseInt(textIdPaciente.getText());
+		System.out.println("id "+textIdPaciente.getText());
 		rs=con.BuscaAnalisis(1);
 		
 		try {
 			while(rs.next()){
-				dfm.addRow(new Object[]{rs.getString("FechaLab"),rs.getString("Hematocrito"),rs.getString("Hemoglobina"),rs.getString("ColesterolTotal"),rs.getString("ColesterolLDL"),rs.getString("ColesterolHDL"),rs.getString("IndiceAterogenico"),rs.getString("Glucemia"),rs.getString("Insulina"),rs.getString("IndiceHoma"),rs.getString("Urea"),rs.getString("Creatinina"),rs.getString("TSH"),rs.getString("Otros")});
+				dfm.addRow(new Object[]{rs.getString("FechaLab").substring(0,10),rs.getString("Hematocrito"),rs.getString("Hemoglobina"),rs.getString("ColesterolTotal"),rs.getString("ColesterolLDL"),rs.getString("ColesterolHDL"),rs.getString("IndiceAterogenico"),rs.getString("Glucemia"),rs.getString("Insulina"),rs.getString("IndiceHoma"),rs.getString("Urea"),rs.getString("Creatinina"),rs.getString("TSH"),rs.getString("Otros")});
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -59,17 +61,18 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 	private void InicioFrame() {
 		setTitle("Tabla de Analisis Clinicos");
 		
-		setBounds(100, 100, 838, 475);
+		setBounds(100, 100, 947, 157);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 39, 802, 387);
+		scrollPane.setBounds(10, 39, 911, 69);
 		contentPane.add(scrollPane);
 		
 		tablaAnalisisClinicos = new JTable();
+		tablaAnalisisClinicos.setEnabled(false);
 		tablaAnalisisClinicos.setBorder(new LineBorder(Color.RED, 2));
 		scrollPane.setViewportView(tablaAnalisisClinicos);
 		
@@ -83,6 +86,7 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 		textIdPaciente.setColumns(10);
 		textIdPaciente.setBounds(142, 11, 57, 20);
 		contentPane.add(textIdPaciente);
+		
 		
 		JLabel lblPaciente = new JLabel("Paciente:");
 		lblPaciente.setBounds(303, 14, 57, 14);

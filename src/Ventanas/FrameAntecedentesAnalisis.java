@@ -58,7 +58,7 @@ public class FrameAntecedentesAnalisis extends JFrame {
 	JButton btnTablaAnalisis;
 	ResultSet rs;
 	JCheckBox chckbxDiabetes,chckbxColesterol,chckbxEnfCardio,chckbxInsulinoResistente,chckbxHipotiroidismo,chckbxHipertiroidismo;
-	
+	ResultSet rsAntededentes=null;
 	
 	
 	public FrameAntecedentesAnalisis() {
@@ -118,7 +118,6 @@ public class FrameAntecedentesAnalisis extends JFrame {
 		chckbxHipertiroidismo.setBounds(6, 137, 140, 23);
 		panel_1.add(chckbxHipertiroidismo);
 	
-		
 		btnGuardarAntyAnalisisClin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -198,9 +197,6 @@ public class FrameAntecedentesAnalisis extends JFrame {
 			
 			}
 		});
-		
-		
-		
 		
 		
 		btnEditar.addActionListener(new ActionListener() {
@@ -493,14 +489,16 @@ public class FrameAntecedentesAnalisis extends JFrame {
 		
 
 		panel.setLayout(gl_panel);
+
+		CheckAntecedentes();
+		
 	}
 	
-	public void InicioFrame(){
-		
-		
-	};
 	
-	public void CheckarAnalisis(){
+	
+	public void CheckAntecedentes(){
+		
+		
 		
 		
 		

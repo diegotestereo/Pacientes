@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 import BasesDatos.*;
 
@@ -155,8 +156,8 @@ public class FrameControles extends JFrame {
 	panel.add(textPesoC);
 	textPesoC.setColumns(10);
 	
-	JButton btnTablaPeso = new JButton("Tabla Peso");
-	btnTablaPeso.addActionListener(new ActionListener() {
+	JButton btnGraficoPeso = new JButton("Grafico Peso");
+	btnGraficoPeso.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			int id =Integer.parseInt(textIdPaciente.getText());
 			Conexion con= new Conexion();
@@ -195,8 +196,8 @@ public class FrameControles extends JFrame {
 			Ventana.setVisible(true);
 		}
 	});
-	btnTablaPeso.setBounds(239, 112, 112, 46);
-	panel.add(btnTablaPeso);
+	btnGraficoPeso.setBounds(239, 134, 112, 35);
+	panel.add(btnGraficoPeso);
 	
 	btnGuardarControl = new JButton("Guardar Control");
 	btnGuardarControl.setEnabled(false);
@@ -297,7 +298,7 @@ public class FrameControles extends JFrame {
 	});
 	
 	
-	btnCalcIMC.setBounds(239, 166, 112, 51);
+	btnCalcIMC.setBounds(239, 182, 112, 35);
 	panel.add(btnCalcIMC);
 	
 	JLabel lblDisgnostico = new JLabel("Disgnostico");
@@ -321,9 +322,44 @@ public class FrameControles extends JFrame {
 	textDiagnostico.setBounds(109, 197, 117, 20);
 	panel.add(textDiagnostico);
 	textDiagnostico.setColumns(10);
+	
+	JButton btnTablaPesos = new JButton("Tabla Peso");
+	btnTablaPesos.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			FrameTablaPesos ventanaTablaPesos= new FrameTablaPesos();
+			Conexion con=new Conexion();
+			ResultSet rs=con.BuscaPesos(Integer.parseInt(textIdPaciente.getText()));
+			DefaultTableModel dfm=new DefaultTableModel();
+			ventanaTablaPesos.tablaPesos.setModel(dfm);
+			dfm.setColumnIdentifiers(new Object[]{"Fecha","Peso","Diferencia"});
+			float[] vector = new float[100];
+			
+			int c=0;
+			try {
+				while(rs.next()){
+					vector[c]=Float.parseFloat(rs.getString("PesoControl"));
+					if(c==0){
+					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),"0"});}
+					else{
+						float diferencia=vector[c-1]-vector[c];
+					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),String.valueOf(diferencia)});
+						
+					}
+					
+					c++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ventanaTablaPesos.setVisible(true);
+		}
+	});
+	btnTablaPesos.setBounds(239, 86, 112, 35);
+	panel.add(btnTablaPesos);
 		
 		
 		
 		
-	};
+	}
 }
