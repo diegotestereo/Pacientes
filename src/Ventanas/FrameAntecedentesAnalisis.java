@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 import javax.swing.JTextArea;
 
 public class FrameAntecedentesAnalisis extends JFrame {
@@ -243,26 +244,33 @@ public class FrameAntecedentesAnalisis extends JFrame {
 					e1.printStackTrace();
 				}
 				if(cantidadAntecedentes!=0){
-					JOptionPane.showMessageDialog(rootPane, "Existen antecedentes");
+			//		JOptionPane.showMessageDialog(rootPane, "Existen antecedentes");
+					try {
+						while(rsAntededentes.next()){
+							chckbxDiabetes.setSelected(rsAntededentes.getBoolean("Diabetes"));
+							chckbxColesterol.setSelected(rsAntededentes.getBoolean("Colesterol"));
+							chckbxEnfCardio.setSelected(rsAntededentes.getBoolean("EnfermedadCardio"));
+							chckbxHipertiroidismo.setSelected(rsAntededentes.getBoolean("Hipertiroidismo"));
+							chckbxHipotiroidismo.setSelected(rsAntededentes.getBoolean("Hipotiroidismo"));
+							chckbxInsulinoResistente.setSelected(rsAntededentes.getBoolean("InsulinoResistente"));
+							textOtrasEnfermedades.setText(rsAntededentes.getString("Otros"));
+							
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}else{JOptionPane.showMessageDialog(rootPane, "No existen antecedentes  Almacenados");
 				}
 				
-				try {
-					while(rsAntededentes.next()){
-						chckbxDiabetes.setSelected(rsAntededentes.getBoolean("Diabetes"));
-						chckbxColesterol.setSelected(rsAntededentes.getBoolean("Colesterol"));
-						chckbxEnfCardio.setSelected(rsAntededentes.getBoolean("EnfermedadCardio"));
-						chckbxHipertiroidismo.setSelected(rsAntededentes.getBoolean("Hipertiroidismo"));
-						chckbxHipotiroidismo.setSelected(rsAntededentes.getBoolean("Hipotiroidismo"));
-						chckbxInsulinoResistente.setSelected(rsAntededentes.getBoolean("InsulinoResistente"));
-						textOtrasEnfermedades.setText(rsAntededentes.getString("Otros"));
-						
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
+				
+				
+				FrameTabladeAnalisisClinicos frameTablaAnalisis = new FrameTabladeAnalisisClinicos();
+				frameTablaAnalisis.textIdPaciente.setText(textIdPaciente.getText());
+				frameTablaAnalisis.textNombrePaciente.setText(textNombre.getText());
+				
+				frameTablaAnalisis.setVisible(true);
 				
 				
 				
