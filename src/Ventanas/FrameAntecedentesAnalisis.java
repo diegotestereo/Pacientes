@@ -91,7 +91,7 @@ public class FrameAntecedentesAnalisis extends JFrame {
 		
 		btnEditar = new JButton("Editar");
 		btnGuardarAntyAnalisisClin = new JButton("Guardar");
-		btnTablaAnalisis = new JButton("Ver Tabla");
+		btnTablaAnalisis = new JButton("Tabla Analisis de Clinicos");
 		
 		chckbxDiabetes = new JCheckBox("Diabetes");
 		chckbxDiabetes.setBounds(6, 7, 140, 23);
@@ -230,7 +230,7 @@ public class FrameAntecedentesAnalisis extends JFrame {
 				
 				Conexion con=new Conexion();
 				ResultSet rsAntededentes=null;
-				
+				ResultSet rsAnalisis=null;
 				
 				rsAntededentes=con.BuscarAntecedentes(Integer.parseInt(textIdPaciente.getText()));
 				

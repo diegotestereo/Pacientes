@@ -64,7 +64,7 @@ public class Conexion {
 	}
 	
 	
-public ResultSet BuscaAnalisis(int IdPaciente){
+	public ResultSet BuscaAnalisis(int IdPaciente){
 		
 		Connection con=Conectar();
 		Statement st;
