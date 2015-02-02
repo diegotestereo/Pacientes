@@ -43,6 +43,7 @@ public class FramePrincipal extends JFrame {
 		inicializacion();//carga la pantalla con todos sus componentes
 		
 		ActualizarTabla();
+		
 	}
 
 	private void inicializacion() {
@@ -68,6 +69,7 @@ public class FramePrincipal extends JFrame {
 				JFrameIngresarPa.btnControles.setEnabled(false);
 				JFrameIngresarPa.textIdPaciente.setText(filas);
 				JFrameIngresarPa.textFecha.setText(String.valueOf(new Timestamp(date.getTime())).substring(0,10));
+				
 				
 			}
 		});

@@ -59,11 +59,11 @@ public class FrameAntecedentesAnalisis extends JFrame {
 	ResultSet rs;
 	JCheckBox chckbxDiabetes,chckbxColesterol,chckbxEnfCardio,chckbxInsulinoResistente,chckbxHipotiroidismo,chckbxHipertiroidismo;
 	ResultSet rsAntededentes=null;
+	FrameTabladeAnalisisClinicos frameTablaAnalisis;
 	
+	static public int IdPacienteGlobal;
 	
 	public FrameAntecedentesAnalisis() {
-		
-		
 		
 		setTitle("Antecedentes y Analisis Clinicos");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,17 +162,22 @@ public class FrameAntecedentesAnalisis extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				if(cantidadAntecedentes!=0){
-					JOptionPane.showMessageDialog(rootPane, "Existen antecedentes");
-					con.InsertarAnalisis(IdNombre, Hematocrito, Hemoglobina, ColesTotal, ColesLDL, ColesHDL, IndAtero, Glucemia, Insulina, IndHoma, Urea, Creatinina, Tsh, Otros);
+				
+				System.out.println("(cantidadAntecedentes==0):"+(cantidadAntecedentes==0)+" ChequearAnalisisLimpios():"+!ChequearAnalisisLimpios());
+				if((cantidadAntecedentes==0)){
+					con.InsertarAntecedentes(IdNombre, diabetes, enfcard, colest, insulino, hipo, hiper, otros);
+					JOptionPane.showMessageDialog(rootPane, "Antecedentes Insertados");
+				}else{
+					JOptionPane.showMessageDialog(rootPane, "Si desea modificar los antencedentes debe tildar el que corresponde y luego pulsar el boton 'Editar'");
 					
-				}else{JOptionPane.showMessageDialog(rootPane, "No existen antecedentes  Almacenados");
-				
-				con.InsertarAntecedentes(IdNombre, diabetes, enfcard, colest, insulino, hipo, hiper, otros);
-				con.InsertarAnalisis(IdNombre, Hematocrito, Hemoglobina, ColesTotal, ColesLDL, ColesHDL, IndAtero, Glucemia, Insulina, IndHoma, Urea, Creatinina, Tsh, Otros);
-			
-				
 				}
+				
+				if(ChequearAnalisisLimpios()){
+					con.InsertarAnalisis(IdNombre, Hematocrito, Hemoglobina, ColesTotal, ColesLDL, ColesHDL, IndAtero, Glucemia, Insulina, IndHoma, Urea, Creatinina, Tsh, Otros);
+					JOptionPane.showMessageDialog(rootPane, "Analisis Insertados");
+				}else{JOptionPane.showMessageDialog(rootPane, "No cargo ningún Analisis");
+				}
+			
 				
 				try {
 					while(rsAntecedentes.next()){
@@ -191,9 +196,21 @@ public class FrameAntecedentesAnalisis extends JFrame {
 				}
 				
 				
-				
-				JOptionPane.showMessageDialog(rootPane, "Datos Ingresados");
 				btnEditar.setEnabled(true);
+				textHematocrito.setText("0");
+				textHemoglobina.setText("0");
+				textColesterolTotal.setText("0");
+				textColesterolLDL.setText("0");
+				textColesterolHDL.setText("0");
+				textIndiceAterogenico.setText("0");
+				textGlucemia.setText("0");
+				textInsulina.setText("0");
+				textIndiceHoma.setText("0");
+				textUrea.setText("0");
+				textCreatinina.setText("0");
+				textTSH.setText("0");
+				textOtros.setText("");
+				
 			
 			}
 		});
@@ -222,13 +239,12 @@ public class FrameAntecedentesAnalisis extends JFrame {
 		
 		btnTablaAnalisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				ChequearAnalisisLimpios();
+				IdPacienteGlobal=Integer.parseInt(textIdPaciente.getText());
 				int cantidadAntecedentes=0;
 				
 				Conexion con=new Conexion();
 				ResultSet rsAntededentes=null;
-				ResultSet rsAnalisis=null;
-				
 				rsAntededentes=con.BuscarAntecedentes(Integer.parseInt(textIdPaciente.getText()));
 				
 				try {
@@ -239,8 +255,9 @@ public class FrameAntecedentesAnalisis extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
 				if(cantidadAntecedentes!=0){
-			//		JOptionPane.showMessageDialog(rootPane, "Existen antecedentes");
+			
 					try {
 						while(rsAntededentes.next()){
 							chckbxDiabetes.setSelected(rsAntededentes.getBoolean("Diabetes"));
@@ -256,16 +273,12 @@ public class FrameAntecedentesAnalisis extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}else{JOptionPane.showMessageDialog(rootPane, "No existen antecedentes  Almacenados");
+				}else{JOptionPane.showMessageDialog(rootPane, "No existen Antecedentes de Enfermedades , ");
 				}
 				
-				
-				
-				
-				FrameTabladeAnalisisClinicos frameTablaAnalisis = new FrameTabladeAnalisisClinicos();
+				frameTablaAnalisis = new FrameTabladeAnalisisClinicos();
 				frameTablaAnalisis.textIdPaciente.setText(textIdPaciente.getText());
 				frameTablaAnalisis.textNombrePaciente.setText(textNombre.getText());
-				
 				frameTablaAnalisis.setVisible(true);
 				
 				
@@ -490,20 +503,11 @@ public class FrameAntecedentesAnalisis extends JFrame {
 
 		panel.setLayout(gl_panel);
 
-		CheckAntecedentes();
 		
 	}
 	
 	
 	
-	public void CheckAntecedentes(){
-		
-		
-		
-		
-		
-		
-	};
 	
 	public ResultSet BuscarAntecedentes(){
 		ResultSet respuesta=null;
@@ -522,6 +526,25 @@ public class FrameAntecedentesAnalisis extends JFrame {
 	return respuesta;
 	}
 	
+	public boolean ChequearAnalisisLimpios(){
+		
+		boolean Salida= false;
+		
+		Salida=!textColesterolHDL.getText().equals("0");
+		Salida|=!textColesterolLDL.getText().equals("0");
+		Salida|=!textColesterolTotal.getText().equals("0");
+		Salida|=!textCreatinina.getText().equals("0");
+		Salida|=!textGlucemia.getText().equals("0");
+		Salida|=!textHematocrito.getText().equals("0");
+		Salida|=!textIndiceAterogenico.getText().equals("0");
+		Salida|=!textIndiceHoma.getText().equals("0");
+		Salida|=!textInsulina.getText().equals("0");
+		Salida|=!textHemoglobina.getText().equals("0");
+		Salida|=!textTSH.getText().equals("0");
+		Salida|=!textUrea.getText().equals("0");
+	
+		return Salida;	
+	}
 	
 	public boolean CheckearCheckBox(int check){
 		boolean salida=false;

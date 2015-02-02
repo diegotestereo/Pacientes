@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import clases.ClasePrincipal;
 import BasesDatos.Conexion;
 
 public class FrameTabladeAnalisisClinicos extends JFrame {
@@ -24,12 +25,15 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 	public JTable tablaAnalisisClinicos;
 	public JTextField textIdPaciente;
 	public JTextField textNombrePaciente;
-
+   private int Idpaciente;
 	
 	public FrameTabladeAnalisisClinicos() {
+		Idpaciente=FrameAntecedentesAnalisis.IdPacienteGlobal;
 		
 		InicioFrame();
 		ActualizarTabla();
+		
+		
 	}
 
 
@@ -42,9 +46,7 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 				, "Glucemia", "Insulina", "IndHoma", "Urea", "Creatinina", "Tsh", "Otros"});
 		Conexion con= new Conexion();
 		ResultSet rs=null;
-		//int id=Integer.parseInt(textIdPaciente.getText());
-		System.out.println("id "+textIdPaciente.getText());
-		rs=con.BuscaAnalisis(1);
+		rs=con.BuscaAnalisis(Idpaciente);
 		
 		try {
 			while(rs.next()){
@@ -58,17 +60,17 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 	}
 
 
-	private void InicioFrame() {
+	public void InicioFrame() {
 		setTitle("Tabla de Analisis Clinicos");
 		
-		setBounds(100, 100, 947, 157);
+		setBounds(100, 100, 947, 223);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 39, 911, 69);
+		scrollPane.setBounds(10, 39, 911, 135);
 		contentPane.add(scrollPane);
 		
 		tablaAnalisisClinicos = new JTable();
@@ -98,5 +100,7 @@ public class FrameTabladeAnalisisClinicos extends JFrame {
 		textNombrePaciente.setColumns(10);
 		textNombrePaciente.setBounds(385, 11, 212, 20);
 		contentPane.add(textNombrePaciente);
+		
+		
 	}
 }
