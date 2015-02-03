@@ -55,6 +55,7 @@ public class FrameControles extends JFrame {
 	String DiagnosticoBool;
 	private JTextField textDiagnostico;
 	private ResultSet rs;
+	static public int IdPacienteGlobal;
 	public FrameControles() {
 		Inicializa();
 		
@@ -160,6 +161,7 @@ public class FrameControles extends JFrame {
 	btnGraficoPeso.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			int id =Integer.parseInt(textIdPaciente.getText());
+			
 			Conexion con= new Conexion();
 			
 			rs=con.BuscarControles(id);
@@ -367,7 +369,7 @@ public class FrameControles extends JFrame {
 	panel.add(btnTablaPesos);
 		
 		
-		
+	
 		
 	}
 }

@@ -7,7 +7,7 @@ public class ClasePrincipal {
 	public static void main(String[] args) {
 		FrameP=new FramePrincipal();
 		FrameP.setVisible(true);
-		IdtotalClasePrincipal=980;
+		
 	}
 
 }

@@ -34,11 +34,13 @@ public class FramePaciente extends JFrame {
 	FrameControles JFrameControl;
 	FramePrincipal JFramePrincipal;
 	public JTextField textFecha;
+	static public int IdPacienteGlobal;
 	
 	public FramePaciente() {
 		setResizable(false);
 		
 		InicializarPantalla();
+		//IdPacienteGlobal=Integer.parseInt(textIdPaciente.getText());
 		}
 
 
@@ -166,6 +168,7 @@ public class FramePaciente extends JFrame {
 				 java.util.Date date= new java.util.Date();
 			JFrameControl=new FrameControles();
 			JFrameControl.textIdPaciente.setText(textIdPaciente.getText());
+			IdPacienteGlobal=Integer.parseInt(textIdPaciente.getText());
 			JFrameControl.textNomPacienteC.setText(textNomPaciente.getText());
 			JFrameControl.textFechaC.setText(textFecha.getText().substring(0,10));
 			JFrameControl.textFechaC.setText(String.valueOf(new Timestamp(date.getTime())).substring(0,10));
@@ -179,10 +182,13 @@ public class FramePaciente extends JFrame {
 		
 		btnAnalisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				IdPacienteGlobal=Integer.parseInt(textIdPaciente.getText());
+				
 				JFrameAnalClini=new FrameAntecedentesAnalisis();
 				JFrameAnalClini.textIdPaciente.setText(textIdPaciente.getText());
 				JFrameAnalClini.textNombre.setText(textNomPaciente.getText());
 				JFrameAnalClini.setVisible(true);
+				
 			}
 		});
 		btnAnalisis.setBounds(127, 164, 214, 53);

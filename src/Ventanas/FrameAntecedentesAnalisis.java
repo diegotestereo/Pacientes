@@ -63,8 +63,11 @@ public class FrameAntecedentesAnalisis extends JFrame {
 	
 	static public int IdPacienteGlobal;
 	
+	Conexion con;
+	ResultSet rsAntecedentes=null;
+	
 	public FrameAntecedentesAnalisis() {
-		
+		con=new Conexion();
 		setTitle("Antecedentes y Analisis Clinicos");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 484, 532);
@@ -149,10 +152,10 @@ public class FrameAntecedentesAnalisis extends JFrame {
 				Tsh=Float.parseFloat(textTSH.getText());
 				Otros=textOtros.getText();
 				
-				
-				Conexion con= new Conexion();
+			
+				//con= new Conexion();
 				int cantidadAntecedentes=0;
-				ResultSet rsAntecedentes=con.BuscarAntecedentes(IdNombre);
+				rsAntecedentes=con.BuscarAntecedentes(IdNombre);
 				
 				try {
 					rsAntecedentes.last();
@@ -213,6 +216,8 @@ public class FrameAntecedentesAnalisis extends JFrame {
 				
 			
 			}
+
+			
 		});
 		
 		
@@ -230,7 +235,7 @@ public class FrameAntecedentesAnalisis extends JFrame {
 		
 				String otros=textOtrasEnfermedades.getText();
 				
-				Conexion con=new Conexion();
+				//Conexion con=new Conexion();
 				con.EditarAntecendentes(IdNombre,diabetes,enfcard,colest,insulino,hipo,hiper,otros);//
 				JOptionPane.showMessageDialog(rootPane, "Los cambios fueron Efectuados.");
 				
@@ -241,40 +246,8 @@ public class FrameAntecedentesAnalisis extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ChequearAnalisisLimpios();
 				IdPacienteGlobal=Integer.parseInt(textIdPaciente.getText());
-				int cantidadAntecedentes=0;
 				
-				Conexion con=new Conexion();
-				ResultSet rsAntededentes=null;
-				rsAntededentes=con.BuscarAntecedentes(Integer.parseInt(textIdPaciente.getText()));
 				
-				try {
-					rsAntededentes.last();
-					cantidadAntecedentes=rsAntededentes.getRow();
-					rsAntededentes.beforeFirst();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				if(cantidadAntecedentes!=0){
-			
-					try {
-						while(rsAntededentes.next()){
-							chckbxDiabetes.setSelected(rsAntededentes.getBoolean("Diabetes"));
-							chckbxColesterol.setSelected(rsAntededentes.getBoolean("Colesterol"));
-							chckbxEnfCardio.setSelected(rsAntededentes.getBoolean("EnfermedadCardio"));
-							chckbxHipertiroidismo.setSelected(rsAntededentes.getBoolean("Hipertiroidismo"));
-							chckbxHipotiroidismo.setSelected(rsAntededentes.getBoolean("Hipotiroidismo"));
-							chckbxInsulinoResistente.setSelected(rsAntededentes.getBoolean("InsulinoResistente"));
-							textOtrasEnfermedades.setText(rsAntededentes.getString("Otros"));
-							
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else{JOptionPane.showMessageDialog(rootPane, "No existen Antecedentes de Enfermedades , ");
-				}
 				
 				frameTablaAnalisis = new FrameTabladeAnalisisClinicos();
 				frameTablaAnalisis.textIdPaciente.setText(textIdPaciente.getText());
@@ -333,8 +306,8 @@ public class FrameAntecedentesAnalisis extends JFrame {
 						.addComponent(lblPaciente)
 						.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnTablaAnalisis, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
@@ -342,7 +315,7 @@ public class FrameAntecedentesAnalisis extends JFrame {
 							.addComponent(btnGuardarAntyAnalisisClin, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-						.addComponent(panel_2, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 405, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel_2.setLayout(null);
@@ -502,10 +475,46 @@ public class FrameAntecedentesAnalisis extends JFrame {
 		
 
 		panel.setLayout(gl_panel);
-
+		IdPacienteGlobal=FramePaciente.IdPacienteGlobal;
 		
+		CargarAntecedentes();
 	}
 	
+	public void CargarAntecedentes() {
+		System.out.println("entro");
+		rsAntededentes=null;
+		rsAntededentes=con.BuscarAntecedentes(IdPacienteGlobal);
+		int cantidadAntecedentes=0;
+		try {
+			rsAntededentes.last();
+			cantidadAntecedentes=rsAntededentes.getRow();
+			rsAntededentes.beforeFirst();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		if(cantidadAntecedentes!=0){
+	
+			try {
+				while(rsAntededentes.next()){
+					chckbxDiabetes.setSelected(rsAntededentes.getBoolean("Diabetes"));
+					chckbxColesterol.setSelected(rsAntededentes.getBoolean("Colesterol"));
+					chckbxEnfCardio.setSelected(rsAntededentes.getBoolean("EnfermedadCardio"));
+					chckbxHipertiroidismo.setSelected(rsAntededentes.getBoolean("Hipertiroidismo"));
+					chckbxHipotiroidismo.setSelected(rsAntededentes.getBoolean("Hipotiroidismo"));
+					chckbxInsulinoResistente.setSelected(rsAntededentes.getBoolean("InsulinoResistente"));
+					textOtrasEnfermedades.setText(rsAntededentes.getString("Otros"));
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{JOptionPane.showMessageDialog(rootPane, "No existen Antecedentes de Enfermedades , ");
+		}
+		
+	}
 	
 	
 	
