@@ -26,7 +26,7 @@ public class Conexion {
 	}
 	
 	public void EditarAntecendentes(int IdNombre,int diabet,int enfcar,int colest,int insulino,int hipo,int hiper,String otros){
-		Connection con=Conectar();
+		Connection con=Conectar();// IdNombre,diabetes,enfcard,colest,insulino,hipo,hiper,otros
 		
 		PreparedStatement pst;
 		
@@ -36,8 +36,8 @@ public class Conexion {
 			pst.setInt(2,enfcar);
 			pst.setInt(3,colest);
 			pst.setInt(4,insulino);
-			pst.setInt(5,hiper);
-			pst.setInt(6,hipo);
+			pst.setInt(5,hipo);
+			pst.setInt(6,hiper);
 			pst.setString(7,otros);
 			pst.execute();
 		} catch (SQLException e) {

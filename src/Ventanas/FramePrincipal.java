@@ -20,7 +20,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.omg.CORBA.Current;
+//import org.omg.CORBA.Current;
 
 import BasesDatos.Conexion;
 import javax.swing.ScrollPaneConstants;

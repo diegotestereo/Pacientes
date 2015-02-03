@@ -341,8 +341,16 @@ public class FrameControles extends JFrame {
 					if(c==0){
 					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),"0"});}
 					else{
-						float diferencia=vector[c-1]-vector[c];
-					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),String.valueOf(diferencia)});
+						float diferencia=vector[c]-vector[c-1];
+						int largoDiferencia =String.valueOf(diferencia).length();
+						String DiferenciaS;
+						if (largoDiferencia<5){
+							DiferenciaS=String.valueOf(diferencia);}
+						else{
+							DiferenciaS=String.valueOf(diferencia).substring(0,5);
+						}
+						
+					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),DiferenciaS});
 						
 					}
 					
