@@ -352,7 +352,7 @@ public class FrameControles extends JFrame {
 							DiferenciaS=String.valueOf(diferencia).substring(0,5);
 						}
 						
-					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),DiferenciaS});
+					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),DiferenciaS,rs.getString("ObsControl")});
 						
 					}
 					
