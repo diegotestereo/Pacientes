@@ -333,7 +333,7 @@ public class FrameControles extends JFrame {
 			ResultSet rs=con.BuscaPesos(Integer.parseInt(textIdPaciente.getText()));
 			DefaultTableModel dfm=new DefaultTableModel();
 			ventanaTablaPesos.tablaPesos.setModel(dfm);
-			dfm.setColumnIdentifiers(new Object[]{"Fecha","Peso","Diferencia"});
+			dfm.setColumnIdentifiers(new Object[]{"Fecha","Peso","Diferencia","Observaciones"});
 			float[] vector = new float[100];
 			
 			int c=0;
@@ -341,7 +341,7 @@ public class FrameControles extends JFrame {
 				while(rs.next()){
 					vector[c]=Float.parseFloat(rs.getString("PesoControl"));
 					if(c==0){
-					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),"0"});}
+					dfm.addRow(new Object[]{rs.getString("FechaControl").substring(0, 10),rs.getString("PesoControl"),"0",rs.getString("ObsControl")});}
 					else{
 						float diferencia=vector[c]-vector[c-1];
 						int largoDiferencia =String.valueOf(diferencia).length();
