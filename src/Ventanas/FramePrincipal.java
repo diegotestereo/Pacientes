@@ -180,7 +180,7 @@ textNombre.addActionListener(new ActionListener() {
 		btnBuscarPorTelefono.setBounds(323, 80, 146, 32);
 		panel.add(btnBuscarPorTelefono);
 		
-		JLabel lblBuscardorDePacientes = new JLabel("Buscardor de Pacientes");
+		JLabel lblBuscardorDePacientes = new JLabel("Buscador de Pacientes");
 		lblBuscardorDePacientes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBuscardorDePacientes.setFont(new Font("LuzSans-Book", Font.BOLD, 19));
 		lblBuscardorDePacientes.setBounds(123, 11, 232, 22);
